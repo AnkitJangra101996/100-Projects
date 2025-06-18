@@ -10,18 +10,19 @@ import { PlusIcon } from "lucide-react";
 import { object, string } from "yup";
 import ErrorMessage from "@/components/ErrorMessage";
 import { toast } from "sonner";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { firebaseAuth } from "@/firebase";
 import { Link, useNavigate } from "react-router-dom";
 import Lightning from "@/components/Lightning";
 
 const schema = object().shape({
+  username: string().required(),
   email: string().email().required(),
   password: string().required().min(6),
   //   profile: string().required(),
 });
 
-const Login = () => {
+const Register = () => {
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -49,30 +50,34 @@ const Login = () => {
   const handleChange = ({ target: { name, value } }) => {
     setFormData({ ...formData, [name]: value });
   };
-  const handleFormSubmit = async (event) => {
-    event.preventDefault();
-    setFormErrors([]);
-    setLoading(true);
 
+  const handleFormSubmit = async (event) => {
+    setFormErrors([]);
+    event.preventDefault();
+    setLoading(true);
     try {
       await schema.validate(formData, { abortEarly: false });
-
-      const promise = signInWithEmailAndPassword(
-        firebaseAuth,
-        formData.email,
-        formData.password
-      );
-
-      // Toast wrapper
-      toast.promise(promise, {
-        loading: "Login Started...",
-        success: "Successfully Logged In. Redirecting to dashboard...",
-        error: "Invalid credentials...",
+      const promise = new Promise((resolve, reject) => {
+        createUserWithEmailAndPassword(
+          firebaseAuth,
+          formData.email,
+          formData.password
+        )
+          .then(() => {
+            resolve();
+          })
+          .catch(() => reject());
       });
-      await promise;
-      setTimeout(() => navigate("/dashboard"), 1000);
+      toast.promise(promise, {
+        loading: "Registration Started ...",
+        success: () => {
+          `${formData.username}, Your Account is Created, Redirecting To Login Page`;
+          setTimeout(() => navigate("/"), 1000);
+        },
+        error: "Internal Server Error...",
+      });
     } catch (err) {
-      if (err.name === "ValidationError") {
+      if (err?.name === "ValidationError") {
         const errors = {};
         err.inner.forEach((error) => {
           if (error.path && !errors[error.path]) {
@@ -80,8 +85,8 @@ const Login = () => {
           }
         });
         setFormErrors(errors);
+        setLoading(false);
       }
-      setLoading(false);
     }
   };
 
@@ -96,7 +101,7 @@ const Login = () => {
                   <img src={Logo} className="w-10" />
                 </Link>
                 <p className="m-0 text-[16px] font-semibold dark:text-white">
-                  Welcome Back
+                  Register With Us...
                 </p>
                 <span className="m-0 text-xs max-w-[90%] text-center text-[#8B8E98]">
                   Get started with our app, just start section and enjoy
@@ -122,10 +127,23 @@ const Login = () => {
               </Avatar> */}
 
               <div className="w-full flex flex-col">
-                <label
-                  className="font-semibold text-xs text-gray-400 mb-2"
-                  htmlFor="email"
-                >
+                <label className="font-semibold text-xs text-gray-400 ">
+                  Username
+                </label>
+                <input
+                  className="border rounded-lg px-3 py-2 text-sm w-full outline-none dark:border-gray-500 dark:bg-gray-900"
+                  placeholder="Enter Your Username"
+                  name="username"
+                  id="username"
+                  onChange={handleChange}
+                  disabled={loading}
+                />
+                {formErrors?.username && (
+                  <ErrorMessage message={formErrors.username} />
+                )}
+              </div>
+              <div className="w-full flex flex-col">
+                <label className="font-semibold text-xs text-gray-400 ">
                   Email
                 </label>
                 <input
@@ -142,10 +160,7 @@ const Login = () => {
                 )}
               </div>
               <div className="w-full flex flex-col">
-                <label
-                  className="font-semibold text-xs text-gray-400 mb-2"
-                  htmlFor="password"
-                >
+                <label className="font-semibold text-xs text-gray-400 ">
                   Password
                 </label>
                 <input
@@ -167,14 +182,14 @@ const Login = () => {
                   className={"w-full"}
                   disabled={loading}
                 >
-                  {loading ? "Please wait..." : "Login"}
+                  {loading ? "Please wait" : "Register"}
                 </Button>
               </div>
               <div className="">
                 <p className="m-0 text-sm">
-                  New User?&nbsp;
-                  <Link className="underline" to={"/register"}>
-                    Register
+                  Already Have An Account?&nbsp;
+                  <Link className="underline" to={"/"}>
+                    Login
                   </Link>
                 </p>
               </div>
@@ -199,4 +214,4 @@ const Input = ({ id, placeholder, type, changeInput }) => {
   );
 };
 
-export default Login;
+export default Register;

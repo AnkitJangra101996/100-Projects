@@ -4,19 +4,21 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { Toaster } from "./components/ui/sonner";
 
-const Home = lazy(() => import("@/screens/Login"));
+const Login = lazy(() => import("@/screens/Login"));
+const Register = lazy(() => import("@/screens/Register"));
+const Dashboard = lazy(() => import("@/screens/Dashboard"));
 
 const App = () => {
   return (
     <>
       <Suspense fallback={"loading...."}>
-        <Header />
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
-        <Footer />
       </Suspense>
-      <Toaster />
+      <Toaster richColors position="bottom-right" expand={false} />
     </>
   );
 };
