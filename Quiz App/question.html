@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz App Using Typescript</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="./styles/style.css" />
+  </head>
+  <body>
+    <!-- Header  -->
+    <header class="navbar sticky-top bg-body-tertiary">
+      <div class="container-fluid text-center justify-content-center">
+        <a class="navbar-brand" href="javascript: void(0)"
+          >Welcome To Quiz Game</a
+        >
+      </div>
+    </header>
+    <!-- Header  -->
+
+    <!-- Page Body -->
+    <main class="px-5 flex align-items-center quiz-page my-5">
+      <form class="card text-center quiz-question-card">
+        <div class="card-header"></div>
+        <div class="card-body"></div>
+        <div class="card-footer text-body-secondary">
+          <button class="btn btn-primary submit-answer-btn" type="submit">
+            Submit Answers
+          </button>
+        </div>
+      </form>
+    </main>
+    <!-- Page Body -->
+
+    <!-- Footer -->
+    <footer class="navbar bg-body-tertiary">
+      <div class="container-fluid justify-content-center">
+        <span class="navbar-text"> Footer Text </span>
+      </div>
+    </footer>
+    <!-- Footer -->
+
+    <!-- Scripts Used -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="./dist/quiz-app.js"></script>
+  </body>
+</html>
