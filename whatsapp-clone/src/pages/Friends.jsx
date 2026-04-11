@@ -1,19 +1,28 @@
 import { friends } from "@/data/friends";
 import { Button } from "@/components/ui/button";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import FriendsCard from "@/components/FriendsCard";
 import { useDispatch, useSelector } from "react-redux";
 import { loadRequests } from "@/store/friendThunks";
 import { Spinner } from "@/components/ui/spinner";
+import { loadSuggestedFriend } from "@/store/friendThunks";
 
 const Friends = () => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
-  console.log(user);
-  const { loading, requests = [] } = useSelector((state) => state.friends);
+  const {
+    loading,
+    requests = [],
+    suggestedFriend = [],
+  } = useSelector((state) => state.friends);
+
+  console.log("suggestedFriend", suggestedFriend);
 
   useEffect(() => {
-    if (user) dispatch(loadRequests(user.id));
+    if (user) {
+      dispatch(loadRequests(user.id));
+      dispatch(loadSuggestedFriend(user.id));
+    }
   }, [user]);
 
   return (

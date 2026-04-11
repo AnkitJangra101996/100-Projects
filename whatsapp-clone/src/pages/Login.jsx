@@ -1,4 +1,3 @@
-// src/pages/Register.jsx
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
@@ -16,7 +15,6 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const user = useSelector((state) => state.auth?.user);
-  console.log(user);
   useEffect(() => {
     if (user) navigate("/");
   }, [navigate, user]);
@@ -24,7 +22,6 @@ function Login() {
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors },
   } = useForm({
     resolver: zodResolver(loginSchema),
@@ -33,7 +30,7 @@ function Login() {
   const onSubmit = async (formData) => {
     setLoading(true);
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
+      const { error } = await supabase.auth.signInWithPassword({
         email: formData.email,
         password: formData.password,
       });
@@ -46,7 +43,7 @@ function Login() {
       toast.success("Login successful! Navigating to home...");
 
       setTimeout(() => {
-        navigate("/home");
+        navigate("/");
       }, 1000);
     } catch (error) {
       console.log("Error during login:", error);

@@ -6,6 +6,8 @@ const friendsSlice = createSlice({
     loading: false,
     requests: [],
     sentRequests: [],
+    suggestedFriend:
+      JSON.parse(localStorage.getItem("whatsapp-clone-suggestedFriend")) || [],
   },
   reducers: {
     setLoading: (state, action) => {
@@ -22,10 +24,22 @@ const friendsSlice = createSlice({
         (req) => req.id !== action.payload,
       );
     },
+    setSuggestedFriend: (state, action) => {
+      state.suggestedFriend = action.payload;
+      localStorage.setItem(
+        "whatsapp-clone-suggestedFriend",
+        JSON.stringify(state.suggestedFriend),
+      );
+    },
   },
 });
 
-export const { setLoading, setRequests, addRequest, removeRequest } =
-  friendsSlice.actions;
+export const {
+  setLoading,
+  setRequests,
+  addRequest,
+  removeRequest,
+  setSuggestedFriend,
+} = friendsSlice.actions;
 
 export default friendsSlice.reducer;

@@ -1,5 +1,23 @@
 import { supabase } from "./supabase";
 
+export const fetchSuggestedFriend = async (userId) => {
+  try {
+    const { data, error } = await supabase
+      .from("users")
+      .select("*")
+      .neq("id", userId)
+      .limit(1);
+    if (error) throw error;
+    return data[0];
+  } catch (error) {
+    console.log(
+      "error in fetch suggested friend [services/friends.js]",
+      error?.message,
+    );
+    throw error;
+  }
+};
+
 export const fetchRequests = async (userId) => {
   try {
     const { data, error } = await supabase

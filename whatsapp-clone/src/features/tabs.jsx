@@ -3,11 +3,12 @@ import { createSlice } from "@reduxjs/toolkit";
 const tabsSlice = createSlice({
   name: "tabs",
   initialState: {
-    tab: "chats",
+    tab: localStorage.getItem("whatsapp-clone-activeTab") || "chats",
   },
   reducers: {
     setActiveTab: (state, action) => {
       state.tab = action.payload;
+      localStorage.setItem("whatsapp-clone-activeTab", action.payload);
     },
   },
 });
