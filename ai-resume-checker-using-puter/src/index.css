@@ -1,0 +1,71 @@
+@import 'tailwindcss';
+
+@import "tailwindcss";
+
+@theme {
+    /* Brand Colors */
+    --color-brand-yellow: #F8DB5A;
+    --color-brand-dark: #111111;
+    --color-brand-gray: #1f1f1f;
+
+    /* Fonts */
+    --font-sans: "Inter", sans-serif;
+    --font-display: "Space Grotesk", sans-serif;
+
+    /* Radius */
+    --radius-card: 20px;
+
+    /* Shadows */
+    --shadow-glow: 0 0 20px rgba(248, 219, 90, 0.3);
+}
+
+.primary-button {
+    @apply px-4 py-2 bg-brand-yellow text-black font-bold rounded-lg hover:bg-white transition hover:cursor-pointer text-sm;
+
+    box-shadow: 0 0 20px rgba(248, 219, 90, 0.3);
+}
+
+button.secondary-button {
+    @apply px-4 py-2 bg-transparent border border-white/20 text-white font-bold rounded-lg hover:bg-white/10 transition hover:cursor-pointer text-sm
+}
+
+/* Styles globaux et animations */
+body {
+    background-color: #0f0f0f;
+    color: #ffffff;
+    overflow-x: hidden;
+}
+
+/* Animation fluide du défilement */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Classe pour l'apparition au scroll (Intersection Observer) */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.8s ease-out;
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Effet de brillance sur les cartes */
+.glass-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.glass-card:hover {
+    transform: translateY(-5px);
+    border-color: #F8DB5A;
+}
+
+.resume-card:hover .delete-icon {
+    display: flex !important
+}
